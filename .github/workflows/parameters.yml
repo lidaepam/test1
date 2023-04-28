@@ -1,0 +1,39 @@
+name: Parameterized action
+
+on:
+workflow_dispatch:
+inputs:
+requiredStringWithDefault:
+type: string
+required: true
+default: I'm default here
+requiredStringWithoutDefault:
+type: string
+required: true
+requiredChoiceWithDefault:
+type: string
+default: option_a
+required: true
+options:
+- option_a
+- option_b
+requiredChoiceWithoutDefault:
+type: string
+required: true
+options:
+- option_a
+- option_b
+singleTestId:
+type: string
+description: 'Run single test by TestCaseId:'
+rpLaunchName:
+type: string
+description: 'Report Portal launch name. If no value set, it will be generated:'
+
+jobs:
+test:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Trigger CircleCI
+run: echo "SingleTestId=${{ github.event.inputs.singleTestId }}, APP=${{ github.event.inputs.rpLaunchName }}"
